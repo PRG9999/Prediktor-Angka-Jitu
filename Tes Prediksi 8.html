@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <title>Prediksi Angka Jitu 4D</title>
+  <style>
+    body {
+      background: #fffcc9;
+      font-family: 'Segoe UI', sans-serif;
+      text-align: center;
+      padding: 20px;
+    }
+
+    h2 {
+      font-size: 30px;
+      color: darkred;
+    }
+
+    .result-box {
+      display: flex;
+      justify-content: center;
+      margin: 20px auto;
+    }
+
+    .digit {
+      width: 60px;
+      height: 60px;
+      font-size: 32px;
+      font-weight: bold;
+      color: white;
+      margin: 5px;
+      border: none;
+      text-align: center;
+      border-radius: 8px;
+    }
+
+    .green { background: green; }
+    .orange { background: orange; }
+    .blue { background: royalblue; }
+    .navy { background: navy; }
+
+    .section {
+      display: flex;
+      justify-content: space-around;
+      margin: 15px auto;
+      padding: 10px;
+      width: 80%;
+      max-width: 600px;
+      flex-wrap: wrap;
+    }
+
+    .putih {
+      background: white;
+      border: 2px solid black;
+      color: darkred;
+      font-size: 36px;
+      font-weight: bold;
+    }
+
+    .merah {
+      background: red;
+      color: yellow;
+      font-size: 34px;
+      font-weight: bold;
+    }
+
+    .kuning {
+      background: yellow;
+      color: darkred;
+      border: 2px solid black;
+      font-size: 38px;
+      font-weight: bold;
+      margin: 10px auto;
+      width: 300px;
+      padding: 10px;
+    }
+
+    button {
+      font-size: 18px;
+      padding: 10px 20px;
+      margin: 10px;
+      font-weight: bold;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+
+    #controls {
+      margin-top: 10px;
+    }
+
+    #counter {
+      margin-top: 10px;
+      font-size: 18px;
+      color: #444;
+      font-weight: bold;
+    }
+
+    div.section > div {
+      margin: 5px;
+    }
+  </style>
+</head>
+<body>
+
+  <h2>Prediksi Angka Jitu 4D</h2>
+
+  <!-- Input Result -->
+  <div class="result-box">
+    <input class="digit green" maxlength="1" id="r1">
+    <input class="digit orange" maxlength="1" id="r2">
+    <input class="digit blue" maxlength="1" id="r3">
+    <input class="digit navy" maxlength="1" id="r4">
+  </div>
+
+  <!-- Tombol -->
+  <div id="controls">
+    <button onclick="generate()">🎯 Generate</button>
+    <button onclick="undo()">⏪ Undo</button>
+    <button onclick="clearAll()">🧹 Clear</button>
+  </div>
+
+  <!-- Counter -->
+  <div id="counter">Sudah di-generate: <span id="count">0</span> kali</div>
+
+  <!-- Hasil -->
+  <div class="section putih" id="angkaMain"></div>
+  <div class="section merah" id="lawanMain"></div>
+  <div class="section kuning" id="angkaIkut"></div>
+
+  <script>
+    let previous = {
+      angkaMain: '',
+      lawanMain: '',
+      angkaIkut: ''
+    };
+
+    let counter = 0;
+
+    function pad(n, length) {
+      return n.toString().padStart(length, '0');
+    }
+
+    function generate() {
+      const r1 = parseInt(document.getElementById('r1').value) || 0;
+      const r2 = parseInt(document.getElementById('r2').value) || 0;
+      const r3 = parseInt(document.getElementById('r3').value) || 0;
+      const r4 = parseInt(document.getElementById('r4').value) || 0;
+
+      const result = parseInt(`${r1}${r2}${r3}${r4}`) || 1;
+      const base = Math.floor((9999 / result) * 3625);
+
+      // Simpan hasil sebelumnya
+      previous.angkaMain = document.getElementById('angkaMain').innerHTML;
+      previous.lawanMain = document.getElementById('lawanMain').innerHTML;
+      previous.angkaIkut = document.getElementById('angkaIkut').innerHTML;
+
+      // Angka Main (3D)
+      let angkaMain = '';
+      for (let i = 0; i < 4; i++) {
+        const val = pad(Math.floor((Math.random() * base) % 1000), 3);
+        angkaMain += `<div>${val}</div>`;
+      }
+      document.getElementById('angkaMain').innerHTML = angkaMain;
+
+      // Lawan Main (4D)
+      let lawanMain = '';
+      for (let i = 0; i < 4; i++) {
+        const val = pad(Math.floor((Math.random() * base) % 10000), 4);
+        lawanMain += `<div>${val}</div>`;
+      }
+      document.getElementById('lawanMain').innerHTML = lawanMain;
+
+      // Angka Ikut (4D)
+      let ikut = '';
+      for (let i = 0; i < 2; i++) {
+        const val = pad(Math.floor((Math.random() * base) % 10000), 4);
+        ikut += `<div>${val}</div>`;
+      }
+      document.getElementById('angkaIkut').innerHTML = ikut;
+
+      // Tambah counter
+      counter++;
+      document.getElementById('count').textContent = counter;
+    }
+
+    function undo() {
+      document.getElementById('angkaMain').innerHTML = previous.angkaMain;
+      document.getElementById('lawanMain').innerHTML = previous.lawanMain;
+      document.getElementById('angkaIkut').innerHTML = previous.angkaIkut;
+    }
+
+    function clearAll() {
+      document.getElementById('r1').value = '';
+      document.getElementById('r2').value = '';
+      document.getElementById('r3').value = '';
+      document.getElementById('r4').value = '';
+      document.getElementById('angkaMain').innerHTML = '';
+      document.getElementById('lawanMain').innerHTML = '';
+      document.getElementById('angkaIkut').innerHTML = '';
+      document.getElementById('count').textContent = 0;
+      counter = 0;
+    }
+  </script>
+</body>
+</html>
